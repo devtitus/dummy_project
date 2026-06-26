@@ -26,10 +26,7 @@ export default function SignUp() {
           placeholder="Re-enter your password"
           inputId={""}
         />
-        <div className="d-inline-flex w-100 justify-content-end mb-3">
-          <Link href={""}>Forgot Password?</Link>
-        </div>
-        <Button buttonType="primary" text="Sign Up" buttonStyle="w-100" />
+        <Button buttonType="primary" text="Sign Up" buttonStyle="w-100 py-2" />
         <div className="text-center mt-2 d-flex justify-content-center gap-1">
           <span>Already have an account?</span>
           <Link href={API_ROUTES.AUTH.LOGIN} className="text-decoration-none">Login</Link>

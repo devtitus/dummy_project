@@ -21,9 +21,9 @@ export default function Login() {
           placeholder="Enter your password"
         />
         <div className="d-inline-flex w-100 justify-content-end mb-3">
-          <Link href={""}>Forgot Password?</Link>
+          <Link href={""} className="text-decoration-none">Forgot Password?</Link>
         </div>
-        <Button buttonType="primary" text="Login" buttonStyle="w-100" />
+        <Button buttonType="primary" text="Login" buttonStyle="w-100 py-2" />
         <div className="text-center mt-2 d-flex justify-content-center gap-1">
           <span>Don't have an account?</span>
           <Link href={API_ROUTES.AUTH.SIGNUP} className="text-decoration-none">
