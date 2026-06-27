@@ -1,37 +1,45 @@
 import { NextResponse } from "next/server";
-import { QueryExecuter, HashFunction, ERROR_MESSAGES, STATUS_CODES } from "@/lib";
+import { MESSAGES, STATUS_CODES } from "@/lib";
+import { registerUserController } from "@/controller";
 
 export async function POST(request) {
   try {
     const { email, password } = await request.json();
 
-    const existingUser = await QueryExecuter(
-      "SELECT id FROM users WHERE email = ?",
-      [email],
-    );
-
-    if (existingUser.length > 0) {
+    if (!email) {
       return NextResponse.json(
-        { error: ERROR_MESSAGES.EMAIL_ALREADY_REGISTERED },
+        { error: MESSAGES.EMAIL_IS_REQUIRED },
         { status: STATUS_CODES.BAD_REQUEST },
       );
     }
 
-    const hashPassword = await HashFunction(password, 10);
+    if (!password) {
+      return NextResponse.json(
+        { error: MESSAGES.PASSWORD_IS_REQUIRED },
+        { status: STATUS_CODES.BAD_REQUEST },
+      );
+    }
 
-    await QueryExecuter(
-      "INSERT INTO users (email, password_hash) VALUES ( ? , ? )",
-      [email, hashPassword],
-    );
+    const result = await registerUserController(email, password);
 
-    return NextResponse.json({
-      success: true,
-      message: ERROR_MESSAGES.USER_REGISTERED_SUCCESS,
-    });
-  } catch (err) {
+    if (!result.success) {
+      return NextResponse.json(
+        { error: result.error },
+        { status: result.status },
+      );
+    }
+
     return NextResponse.json(
-      console.error(err),
-      { error: "Internal Server Error" },
+      {
+        success: true,
+        message: result.message,
+      },
+      { status: result.status },
+    );
+  } catch (err) {
+    console.error("API Route Issue: ", err);
+    return NextResponse.json(
+      { error: MESSAGES.INTERNAL_SERVER_ERROR },
       { status: STATUS_CODES.INTERNAL_SERVER_ERROR },
     );
   }

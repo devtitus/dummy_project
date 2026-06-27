@@ -37,7 +37,7 @@ export default function SignUp() {
         throw new Error(data.error || "Something went wrong.");
       }
 
-      alert("Registration Successfull.");
+      alert("Registration Successful.");
       router.push(API_ROUTES.AUTH.LOGIN);
     } catch (error) {
       setError(error.message);
@@ -48,7 +48,10 @@ export default function SignUp() {
 
   return (
     <div className="d-flex min-vh-100 justify-content-center align-items-center">
-      <form className="card w-25 h-50 p-4 rounded-4" onSubmit={handleSubmit}>
+      <form className="card w-100 h-50 p-4 rounded-4" style={{ maxWidth: '400px' }} onSubmit={handleSubmit}>
+
+        {error && <div className="alert alert-danger p-2 small">{error}</div>}
+
         <Input
           inputWrapperClass="w-100"
           labelText="Email"
@@ -70,7 +73,7 @@ export default function SignUp() {
         />
         <Input
           inputWrapperClass="w-100"
-          labelText="Password"
+          labelText="Confirm Password"
           type="password"
           placeholder="Re-enter your password"
           inputId={""}
