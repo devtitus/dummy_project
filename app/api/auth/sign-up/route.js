@@ -1,30 +1,33 @@
 import { NextResponse } from "next/server";
 import { MESSAGES, STATUS_CODES } from "@/lib";
 import { registerUserController } from "@/controller";
+import { signUpSchema } from "@/lib/validation";
 
 export async function POST(request) {
   try {
-    const { email, password } = await request.json();
+    const body = await request.json();
 
-    if (!email) {
+    const validation = signUpSchema.safeParse(body);
+
+    if (!validation.success) {
+      const errors = {};
+      validation.error.issues.forEach((issue) => {
+        errors[issue.path[0]] = issue.message;
+      });
+
       return NextResponse.json(
-        { error: MESSAGES.EMAIL_IS_REQUIRED },
+        { errors },
         { status: STATUS_CODES.BAD_REQUEST },
       );
     }
 
-    if (!password) {
-      return NextResponse.json(
-        { error: MESSAGES.PASSWORD_IS_REQUIRED },
-        { status: STATUS_CODES.BAD_REQUEST },
-      );
-    }
+    const { email, password } = validation.data;
 
     const result = await registerUserController(email, password);
 
     if (!result.success) {
       return NextResponse.json(
-        { error: result.error },
+        { errors: { email: result.error } },
         { status: result.status },
       );
     }
