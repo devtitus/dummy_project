@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { QueryExecuter, HashFunction } from "@/lib";
+import { QueryExecuter, HashFunction, ERROR_MESSAGES, STATUS_CODES } from "@/lib";
 
 export async function POST(request) {
   try {
@@ -12,8 +12,8 @@ export async function POST(request) {
 
     if (existingUser.length > 0) {
       return NextResponse.json(
-        { error: "Email Already Registered" },
-        { status: 400 },
+        { error: ERROR_MESSAGES.EMAIL_ALREADY_REGISTERED },
+        { status: STATUS_CODES.BAD_REQUEST },
       );
     }
 
@@ -26,13 +26,13 @@ export async function POST(request) {
 
     return NextResponse.json({
       success: true,
-      message: "User Resgistered Successfully!",
+      message: ERROR_MESSAGES.USER_REGISTERED_SUCCESS,
     });
   } catch (err) {
     return NextResponse.json(
       console.error(err),
       { error: "Internal Server Error" },
-      { status: 500 },
+      { status: STATUS_CODES.INTERNAL_SERVER_ERROR },
     );
   }
 }
