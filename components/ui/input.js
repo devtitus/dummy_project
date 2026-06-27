@@ -1,4 +1,4 @@
-export const Input = ({ inputWrapperClass, type, placeholder, labelText, inputId }) => {
+export const Input = ({ inputWrapperClass, type, placeholder, labelText, inputId, value, onChange, required }) => {
   return (
     <div className={`mb-3 ${inputWrapperClass}`}>
       <label htmlFor="formGroupExampleInput" className="form-label">
@@ -9,6 +9,9 @@ export const Input = ({ inputWrapperClass, type, placeholder, labelText, inputId
         className="form-control"
         id={inputId}
         placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        required={required}
       />
     </div>
   );
