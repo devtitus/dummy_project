@@ -1,3 +1,4 @@
+"use client";
 import { Input, Button } from "@/components/ui/index";
 import { API_ROUTES } from "@/lib/apiList";
 import Link from "next/link";
@@ -5,19 +6,17 @@ import Link from "next/link";
 export default function Login() {
   return (
     <div className="d-flex min-vh-100 justify-content-center align-items-center">
-      <div className="card w-25 h-50 p-4 rounded-4">
+      <form className="card w-25 h-50 p-4 rounded-4" noValidate>
         <Input
           inputWrapperClass="w-100"
           labelText="Email"
           type="email"
-          inputId={""}
           placeholder="Enter your email"
         />
         <Input
           inputWrapperClass="w-100"
           labelText="Password"
           type="password"
-          inputId={""}
           placeholder="Enter your password"
         />
         <div className="d-inline-flex w-100 justify-content-end mb-3">
@@ -30,7 +29,7 @@ export default function Login() {
             Sign Up
           </Link>
         </div>
-      </div>
+      </form>
     </div>
   );
 }
