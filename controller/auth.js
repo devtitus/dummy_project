@@ -41,7 +41,7 @@ export const registerUserController = async (email, password) => {
 export const loginUserController = async (email, password) => {
   try {
     const existingUser = await QueryExecuter(
-      "SELECT email, password_hash FROM users WHERE email = ? ",
+      "SELECT id, email, password_hash FROM users WHERE email = ? ",
       [email],
     );
 
@@ -66,6 +66,7 @@ export const loginUserController = async (email, password) => {
       success: true,
       message: MESSAGES.LOGIN_SUCCESS,
       status: STATUS_CODES.SUCCESS,
+      user: {id: user.id, email: user.email}
     };
   } catch (error) {
     return {

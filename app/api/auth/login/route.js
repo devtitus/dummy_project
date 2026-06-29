@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { MESSAGES, STATUS_CODES } from "@/lib";
 import { loginSchema } from "@/lib/validation";
 import { loginUserController } from "@/controller";
+import { createSessionToken } from "@/lib";
 
 export async function POST(request) {
   try {
@@ -29,10 +30,31 @@ export async function POST(request) {
       );
     }
 
-    return NextResponse.json(
+    // Set Cookie Expiration 1 Day from now 
+    const expires = new Date(Date.now() + 24 * 60 * 60 * 1000);
+
+    const sessionToken = await createSessionToken({
+      user: result.user,
+      expires
+    })
+
+    const response = NextResponse.json(
       { success: true, message: result.success },
       { status: result.status },
     );
+
+    response.cookies.set({
+      name: "session",
+      value: sessionToken,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // uses https in production
+      sameSite: "lax",
+      path: "/", // Available for whole app
+      expires: expires
+    })
+
+    return response;
+   
   } catch (err) {
     console.error("Login API Route Issue", err)
     return NextResponse.json(
