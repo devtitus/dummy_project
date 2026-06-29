@@ -5,7 +5,6 @@ import {
   MESSAGES,
   STATUS_CODES,
 } from "@/lib";
-import { success } from "zod";
 
 export const registerUserController = async (email, password) => {
   try {
@@ -49,7 +48,7 @@ export const loginUserController = async (email, password) => {
     if (existingUser.length === 0) {
       return {
         success: false,
-        message: MESSAGES.ACCOUNT_NOT_EXIST,
+        message: MESSAGES.INVALID_EMAIL,
         status: STATUS_CODES.UNAUTHORIZED,
       };
     }
@@ -58,7 +57,7 @@ export const loginUserController = async (email, password) => {
     if (!isPasswordValid) {
       return {
         success: false,
-        message: MESSAGES.PASSWORD_NO_VALID,
+        message: MESSAGES.INVALID_PASSWORD,
         status: STATUS_CODES.UNAUTHORIZED,
       };
     }
