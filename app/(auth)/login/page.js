@@ -57,7 +57,7 @@ export default function Login() {
         return;
       }
 
-      alert("Login Successful.");
+      router.push("/dashboard");
     } catch (err) {
       setError({ global: "Network error. Please try again later." });
     } finally {
