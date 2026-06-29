@@ -85,6 +85,7 @@ export default function SignUp() {
         onSubmit={handleSubmit}
         noValidate
       >
+        <h3 className="mb-4 fw-semibold">Sign Up</h3>
         {error.global && (
           <div className="alert alert-danger p-2 small">{error.global}</div>
         )}
